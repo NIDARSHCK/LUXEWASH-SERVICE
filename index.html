@@ -54,28 +54,20 @@
       position: relative;
       z-index: 100;
     }
-
-    .menu-dots {
-      font-size: 2rem;
-      cursor: pointer;
-       background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-   color: var(--secondary-color);
-
-  border: 1px solid rgba(255, 255, 255, 0.35);
+.menu-dots {
+  font-size: 2rem;
+  cursor: pointer;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
   border-radius: 50%;
-
   width: 50px;
   height: 50px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
-  box-shadow: 0 6px 18px rgba(60, 195, 225, 0.35);
-  backdrop-filter: blur(6px);
-
-  transition: all 0.3s ease;
-    }
+  color: var(--primary-color); /* 🔹 ONLY DOTS COLOR */
+  transition: background 0.3s, transform 0.3s, color 0.3s;
+}
     .menu-dots:hover {
       background: var(--primary-color);
       transform: rotate(90deg);
