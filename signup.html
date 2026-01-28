@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign Up - LuxeWash</title>
+  <link rel="stylesheet" href="main1.css">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #caf0f8 0%, #90e0ef 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #222;
+    }
+    .signup-container {
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(0,123,182,0.18);
+      padding: 2.5rem 2rem;
+      max-width: 370px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      animation: fadeIn 0.8s;
+    }
+    .signup-container h2 {
+      color: #0077b6;
+      margin-bottom: 1.2rem;
+      font-size: 2rem;
+      letter-spacing: 1px;
+    }
+    .signup-container input {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      border: 1px solid #caf0f8;
+      font-size: 1rem;
+    }
+    .signup-container button {
+      width: 100%;
+      background: #0077b6;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.7rem;
+      font-size: 1.1rem;
+      cursor: pointer;
+      margin-bottom: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .signup-container button:hover {
+      background: #023e8a;
+    }
+    .signup-container a {
+      display: block;
+      text-align: center;
+      color: #0077b6;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .signup-container a:hover {
+      color: #023e8a;
+    }
+    .message {
+      color: #d90429;
+      text-align: center;
+      margin-top: 1rem;
+      min-height: 1.2em;
+    }
+    .success-message {
+      color: #0077b6;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-top: 1.5rem;
+      animation: fadeIn 1s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-container">
+    <h2>Create Account</h2>
+    <form id="signupForm">
+      <input type="text" id="signupName" placeholder="Full Name" required>
+      <input type="text" id="signupEmail" placeholder="Email" required>
+      <input type="text" id="signupPhone" placeholder="Phone Number" required>
+      <input type="password" id="signupPassword" placeholder="Password" required>
+      <input type="password" id="signupConfirm" placeholder="Confirm Password" required>
+      <button type="submit">Sign Up</button>
+    </form>
+    <a href="signin.html">Already have an account? Sign In</a>
+    <div class="message" id="signupMsg"></div>
+    <div class="success-message" id="signupSuccess" style="display:none;">
+      Registration successful! Redirecting to sign in...
+    </div>
+  </div>
+  <script>
+    const signupForm = document.getElementById('signupForm');
+    const signupMsg = document.getElementById('signupMsg');
+    const signupSuccess = document.getElementById('signupSuccess');
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+    function isValidPhone(phone) {
+      return /^\d{10}$/.test(phone);
+    }
+    function isValidPassword(password) {
+      // At least 6 chars, 1 uppercase, 1 lowercase, 1 digit
+      return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/.test(password);
+    }
+
+    signupForm.onsubmit = function(e) {
+      e.preventDefault();
+      const name = document.getElementById('signupName').value.trim();
+      const email = document.getElementById('signupEmail').value.trim();
+      const phone = document.getElementById('signupPhone').value.trim();
+      const password = document.getElementById('signupPassword').value;
+      const confirm = document.getElementById('signupConfirm').value;
+
+      signupMsg.style.color = '#d90429';
+      signupMsg.textContent = '';
+
+      if (!name) {
+        signupMsg.textContent = 'Please enter your name.';
+        return;
+      }
+      if (!isValidEmail(email)) {
+        signupMsg.textContent = 'Please enter a valid email.';
+        return;
+      }
+      if (!isValidPhone(phone)) {
+        signupMsg.textContent = 'Please enter a valid 10-digit phone number.';
+        return;
+      }
+      if (!isValidPassword(password)) {
+        signupMsg.textContent = 'Password must be at least 6 characters, include uppercase, lowercase, and a digit.';
+        return;
+      }
+      if (password !== confirm) {
+        signupMsg.textContent = 'Passwords do not match.';
+        return;
+      }
+
+      signupForm.style.display = 'none';
+      signupMsg.textContent = '';
+      signupSuccess.style.display = 'block';
+      setTimeout(() => {
+        window.location.href = 'signin.html';
+      }, 1800);
+    };
+  </script>

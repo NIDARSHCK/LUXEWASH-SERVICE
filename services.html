@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LuxeWash - Services</title>
+  
+  <style>
+    /* --- Google Font Import --- */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+    /* --- CSS Variables for Theming --- */
+    :root {
+      --primary-color: #0077b6;
+      --secondary-color: #023e8a;
+      --accent-color: #90e0ef;
+      --light-bg: #caf0f8;
+      --text-color: #333;
+      --white-alpha-85: rgba(255, 255, 255, 0.85);
+      --shadow-color: rgba(0, 123, 182, 0.15);
+      --border-radius-md: 16px;
+      --border-radius-lg: 24px;
+    }
+
+    /* --- General Body Styles & Animated Gradient --- */
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: var(--text-color);
+      background: linear-gradient(135deg, var(--light-bg), var(--accent-color), #ade8f4);
+      background-size: 400% 400%;
+      animation: gradientAnimation 15s ease infinite;
+      margin: 0;
+      padding-top: 80px; /* Space for the fixed header */
+    }
+
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* --- Header Styling --- */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 5%;
+      z-index: 1000;
+      transition: all 0.4s ease;
+    }
+
+    header.scrolled {
+      padding: 10px 5%;
+      background: var(--white-alpha-85);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--secondary-color);
+      margin: 0;
+    }
+    
+    /* --- NEW CSS RULE TO MAKE THE H1 LINK LOOK RIGHT --- */
+    header h1 a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    header .nav-link {
+      text-decoration: none;
+      color: var(--primary-color);
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    header .nav-link:hover {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    /* --- Main Content Sections --- */
+    .services-section,
+    .modifications-section {
+      max-width: 1200px;
+      margin: 4rem auto;
+      padding: 2rem;
+      background: var(--white-alpha-85);
+      backdrop-filter: blur(10px);
+      border-radius: var(--border-radius-lg);
+      box-shadow: 0 8px 32px 0 var(--shadow-color);
+    }
+
+    .services-section h2,
+    .modifications-section h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      color: var(--secondary-color);
+      margin-bottom: 2.5rem;
+    }
+
+    /* --- Interactive Card Grid --- */
+    .service-cards,
+    .modifications-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      justify-items: center;
+    }
+
+    .service-card,
+    .mod-item {
+      background: white;
+      border-radius: var(--border-radius-md);
+      box-shadow: 0 4px 20px var(--shadow-color);
+      padding: 1.5rem;
+      text-align: center;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      will-change: transform; /* Performance optimization for animations */
+      transform-style: preserve-3d; /* Required for 3D tilt */
+    }
+
+    .service-card:hover,
+    .mod-item:hover {
+      box-shadow: 0 12px 30px rgba(0, 123, 182, 0.25);
+    }
+
+    .service-card img,
+    .mod-item img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+    }
+
+    .service-card h3,
+    .mod-item h3 {
+      font-size: 1.25rem;
+      color: var(--secondary-color);
+      margin: 0.5rem 0;
+    }
+
+    .service-card p {
+      font-size: 0.9rem;
+      color: #555;
+      min-height: 40px;
+    }
+
+    .service-card .price,
+    .mod-item .price {
+      display: block;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-top: 1rem;
+    }
+
+    /* --- Modern Table Styling --- */
+    .services-table {
+      width: 100%;
+      margin: 3rem auto;
+      border-collapse: collapse;
+      border-radius: var(--border-radius-md);
+      overflow: hidden;
+      box-shadow: 0 4px 20px var(--shadow-color);
+    }
+
+    .services-table th,
+    .services-table td {
+      padding: 1rem 1.5rem;
+      text-align: left;
+    }
+
+    .services-table thead th {
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: 600;
+    }
+
+    .services-table tbody tr {
+      border-bottom: 1px solid #ddd;
+      background-color: #fff;
+    }
+
+    .services-table tbody tr:nth-of-type(even) {
+      background-color: #f8f8f8;
+    }
+
+    .services-table tbody tr:last-of-type {
+      border-bottom: 2px solid var(--primary-color);
+    }
+
+    /* --- On-Scroll Animation --- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* --- Footer --- */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      margin-top: 2rem;
+      color: var(--secondary-color);
+    }
+
+    /* --- Responsive Design --- */
+    @media (max-width: 768px) {
+      body {
+        padding-top: 70px;
+      }
+      
+      header h1 {
+        font-size: 1.5rem;
+      }
+
+      .services-section h2,
+      .modifications-section h2 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><a href="index1.html">LuxeWash</a></h1>
+    <nav>
+      <a href="index1.html" class="nav-link">  Home</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="services-section reveal">
+      <h2>Our Services & Prices</h2>
+      <div class="service-cards">
+        <div class="service-card reveal">
+          <img src="https://images.unsplash.com/photo-1511918984145-48de785d4c4e?auto=format&fit=crop&w=400&q=80" alt="Exterior Wash">
+          <h3>Exterior Wash</h3>
+          <p>Complete exterior cleaning and shine</p>
+          <span class="price">₹1,200</span>
+        </div>
+        <div class="service-card reveal">
+          <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=400&q=80" alt="Interior Cleaning">
+          <h3>Interior Cleaning</h3>
+          <p>Vacuum, dusting, and sanitizing</p>
+          <span class="price">₹1,500</span>
+        </div>
+        <div class="service-card reveal">
+          <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80" alt="Full Detailing">
+          <h3>Full Detailing</h3>
+          <p>Exterior + Interior + Wax & Polish</p>
+          <span class="price">₹3,000</span>
+        </div>
+        <div class="service-card reveal">
+          <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80" alt="Ceramic Coating">
+          <h3>Ceramic Coating</h3>
+          <p>Ultimate protection for your car’s paint.</p>
+          <span class="price">₹9,500</span>
+        </div>
+        <div class="service-card reveal">
+          <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80" alt="Engine Bay Cleaning">
+          <h3>Engine Bay Cleaning</h3>
+          <p>Deep cleaning for engine compartment.</p>
+          <span class="price">₹2,000</span>
+        </div>
+      </div>
+      <table class="services-table reveal">
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>Description</th>
+            <th>Price (INR)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Exterior Wash</td>
+            <td>Complete exterior cleaning and shine</td>
+            <td>₹1,200</td>
+          </tr>
+          <tr>
+            <td>Interior Cleaning</td>
+            <td>Vacuum, dusting, and sanitizing</td>
+            <td>₹1,500</td>
+          </tr>
+          <tr>
+            <td>Full Detailing</td>
+            <td>Exterior + Interior + Wax & Polish</td>
+            <td>₹3,000</td>
+          </tr>
+          <tr>
+            <td>Ceramic Coating</td>
+            <td>Ultimate protection for your car’s paint</td>
+            <td>₹9,500</td>
+          </tr>
+          <tr>
+            <td>Engine Bay Cleaning</td>
+            <td>Deep cleaning for engine compartment</td>
+            <td>₹2,000</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="modifications-section reveal">
+      <h2>Modification Services & Prices</h2>
+      <div class="modifications-list">
+        <div class="mod-item reveal">
+          <img src="https://images.unsplash.com/photo-1511918984145-48de785d4c4e?auto=format&fit=crop&w=400&q=80" alt="Alloy Wheels">
+          <h3>Custom Alloy Wheels</h3>
+          <span class="price">₹15,000</span>
+        </div>
+        <div class="mod-item reveal">
+          <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=400&q=80" alt="Body Kits">
+          <h3>Body Kits</h3>
+          <span class="price">₹25,000</span>
+        </div>
+        <div class="mod-item reveal">
+            <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80" alt="Window Tinting">
+            <h3>Window Tinting</h3>
+            <span class="price">₹4,000</span>
+        </div>
+        <div class="mod-item reveal">
+            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80" alt="Performance Upgrades">
+            <h3>Performance Upgrades</h3>
+            <span class="price">₹20,000</span>
+        </div>
+        <div class="mod-item reveal">
+            <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80" alt="Interior Customization">
+            <h3>Interior Customization</h3>
+            <span class="price">₹12,000</span>
+        </div>
+        <div class="mod-item reveal">
+            <img src="https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=400&q=80" alt="Spoilers">
+            <h3>Spoilers</h3>
+            <span class="price">₹7,000</span>
+        </div>
+        <div class="mod-item reveal">
+            <img src="https://images.unsplash.com/photo-1511918984145-48de785d4c4e?auto=format&fit=crop&w=400&q=80" alt="LED Lights">
+            <h3>LED Lights</h3>
+            <span class="price">₹3,500</span>
+        </div>
+        <div class="mod-item reveal">
+            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=400&q=80" alt="Custom Paint">
+            <h3>Custom Paint</h3>
+            <span class="price">₹18,000</span>
+        </div>
+        <div class="mod-item reveal">
+            <img src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=400&q=80" alt="Exhaust Upgrade">
+            <h3>Exhaust Upgrade</h3>
+            <span class="price">₹10,000</span>
+        </div>
+        <div class="mod-item reveal">
+            <img src="https://images.unsplash.com/photo-1511391403515-ec7e7b2b8b1b?auto=format&fit=crop&w=400&q=80" alt="Suspension Tuning">
+            <h3>Suspension Tuning</h3>
+            <span class="price">₹14,000</span>
+        </div>
+        <div class="mod-item reveal">
+            <img src="https://images.unsplash.com/photo-1511918984145-48de785d4c4e?auto=format&fit=crop&w=400&q=80" alt="Audio System">
+            <h3>Audio System</h3>
+            <span class="price">₹8,000</span>
+        </div>
+        <div class="mod-item reveal">
+            <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=400&q=80" alt="Remote Start">
+            <h3>Remote Start</h3>
+            <span class="price">₹5,500</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 LuxeWash. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+      // --- 1. Dynamic Header on Scroll ---
+      const header = document.querySelector('header');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      });
+
+      // --- 2. On-Scroll Reveal Animation using Intersection Observer ---
+      const revealElements = document.querySelectorAll('.reveal');
+      const observerOptions = {
+        root: null, // observes intersections relative to the viewport
+        rootMargin: '0px',
+        threshold: 0.1 // 10% of the element must be visible
+      };
+
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target); // Stop observing once it's visible
+          }
+        });
+      }, observerOptions);
+
+      revealElements.forEach(el => {
+        observer.observe(el);
+      });
+
+      // --- 3. 3D Card Tilt Effect ---
+      const cards = document.querySelectorAll('.service-card, .mod-item');
+
+      cards.forEach(card => {
+        const height = card.clientHeight;
+        const width = card.clientWidth;
+
+        card.addEventListener('mousemove', (e) => {
+          // Get mouse position relative to the card
+          const x = e.layerX;
+          const y = e.layerY;
+
+          // Calculate rotation values (adjust multiplier for more/less effect)
+          const xRotation = 20 * ((y - height / 2) / height);
+          const yRotation = -20 * ((x - width / 2) / width);
+
+          // Construct the CSS transform string
+          const transformString = `perspective(1000px) scale(1.05) rotateX(${xRotation}deg) rotateY(${yRotation}deg)`;
+          
+          card.style.transform = transformString;
+        });
+
+        // Reset card to default state on mouse leave
+        card.addEventListener('mouseout', () => {
+          card.style.transform = 'perspective(1000px) scale(1) rotateX(0) rotateY(0)';
+        });
+      });
+
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign In - LuxeWash</title>
+  <link rel="stylesheet" href="main1.css">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #caf0f8 0%, #90e0ef 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #222;
+    }
+    .signin-container {
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(0,123,182,0.18);
+      padding: 2.5rem 2rem;
+      max-width: 350px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      animation: fadeIn 0.8s;
+    }
+    .signin-container h2 {
+      color: #0077b6;
+      margin-bottom: 1.2rem;
+      font-size: 2rem;
+      letter-spacing: 1px;
+    }
+    .signin-container input {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      border: 1px solid #caf0f8;
+      font-size: 1rem;
+    }
+    .signin-container button {
+      width: 100%;
+      background: #0077b6;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.7rem;
+      font-size: 1.1rem;
+      cursor: pointer;
+      margin-bottom: 0.5rem;
+    }
+    .signin-container button:hover {
+      background: #023e8a;
+    }
+    .signin-container a {
+      display: block;
+      text-align: right;
+      color: #0077b6;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .signup-link {
+      text-align: center;
+      color: #023e8a;
+      font-size: 1rem;
+      margin-top: 1rem;
+      text-decoration: underline;
+      cursor: pointer;
+      display: block;
+    }
+    .signup-link:hover {
+      color: #0077b6;
+      text-decoration: underline;
+    }
+    .verify-section {
+      display: none;
+      margin-top: 1rem;
+    }
+    .message {
+      color: #d90429;
+      text-align: center;
+      margin-top: 1rem;
+      min-height: 1.2em;
+    }
+    .user-display {
+      text-align: center;
+      color: #023e8a;
+      font-size: 1.05rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+    .code-display {
+      text-align: center;
+      font-size: 1.3rem;
+      color: #0077b6;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      letter-spacing: 2px;
+    }
+    .timer {
+      text-align: center;
+      color: #d90429;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    .resend-btn {
+      background: #90e0ef;
+      color: #023e8a;
+      border: none;
+      border-radius: 8px;
+      padding: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+    .resend-btn:disabled {
+      background: #caf0f8;
+      color: #aaa;
+      cursor: not-allowed;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+  <div class="signin-container">
+    <h2>Sign In</h2>
+    <form id="signinForm">
+      <input type="text" id="loginInput" placeholder="Email or Phone Number" required>
+      <input type="password" id="passwordInput" placeholder="Password" required>
+      <a href="#" id="forgotPass">Forgot Password?</a>
+      <button type="submit">Sign In</button>
+    </form>
+    <a class="signup-link" href="signup.html">New user? Sign Up</a>
+    <div class="verify-section" id="verifySection">
+      <div class="user-display" id="userDisplay"></div>
+      <div class="code-display" id="codeDisplay"></div>
+      <div class="timer" id="timerDisplay"></div>
+      <button class="resend-btn" id="resendBtn" disabled>Resend Code</button>
+      <p style="color:#023e8a; font-size:1rem;">Enter the verification code sent to your email/phone:</p>
+      <input type="text" id="verifyCodeInput" placeholder="Verification Code">
+      <button id="verifyBtn">Verify</button>
+    </div>
+    <div class="message" id="signinMsg"></div>
+  </div>
+  <script>
+    // --- Sign In Logic ---
+    const signinForm = document.getElementById('signinForm');
+    const verifySection = document.getElementById('verifySection');
+    const signinMsg = document.getElementById('signinMsg');
+    const forgotPass = document.getElementById('forgotPass');
+    const verifyBtn = document.getElementById('verifyBtn');
+    const userDisplay = document.getElementById('userDisplay');
+    const loginInput = document.getElementById('loginInput');
+    const verifyCodeInput = document.getElementById('verifyCodeInput');
+    const codeDisplay = document.getElementById('codeDisplay');
+    const timerDisplay = document.getElementById('timerDisplay');
+    const resendBtn = document.getElementById('resendBtn');
+
+    let generatedCode = '';
+    let timer = null;
+    let timeLeft = 60;
+
+    function generateCode() {
+      return Math.floor(100000 + Math.random() * 900000).toString();
+    }
+
+    function startTimer() {
+      timeLeft = 60;
+      timerDisplay.textContent = `Code expires in ${timeLeft} seconds`;
+      resendBtn.disabled = true;
+      timer = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = `Code expires in ${timeLeft} seconds`;
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          timerDisplay.textContent = 'Code expired. Please resend code.';
+          resendBtn.disabled = false;
+          generatedCode = '';
+          codeDisplay.textContent = '------';
+        }
+      }, 1000);
+    }
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+    function isValidPhone(phone) {
+      return /^\d{10}$/.test(phone);
+    }
+
+    signinForm.onsubmit = function(e) {
+      e.preventDefault();
+      const userValue = loginInput.value.trim();
+      if (!isValidEmail(userValue) && !isValidPhone(userValue)) {
+        signinMsg.style.color = '#d90429';
+        signinMsg.textContent = 'Invalid email or phone number. Please try again.';
+        setTimeout(() => {
+          window.location.href = 'signin.html';
+        }, 1500);
+        return;
+      }
+      userDisplay.textContent = `Verifying: ${userValue}`;
+      signinForm.style.display = 'none';
+      verifySection.style.display = 'block';
+      signinMsg.textContent = '';
+      verifyCodeInput.value = '';
+      generatedCode = generateCode();
+      codeDisplay.textContent = generatedCode;
+      startTimer();
+      verifyCodeInput.focus();
+    };
+
+    resendBtn.onclick = function() {
+      generatedCode = generateCode();
+      codeDisplay.textContent = generatedCode;
+      startTimer();
+      signinMsg.textContent = '';
+      verifyCodeInput.value = '';
+      verifyCodeInput.focus();
+    };
+
+    verifyBtn.onclick = function() {
+      if (!generatedCode) {
+        signinMsg.style.color = '#d90429';
+        signinMsg.textContent = 'Code expired. Please resend code.';
+        return;
+      }
+      const code = verifyCodeInput.value;
+      if (code === generatedCode) {
+        signinMsg.style.color = '#0077b6';
+        signinMsg.textContent = 'Sign in successful!';
+        clearInterval(timer);
+        setTimeout(() => { window.location.href = 'index1.html'; }, 1200);
+      } else {
+        signinMsg.style.color = '#d90429';
+        signinMsg.textContent = 'Invalid verification code.';
+      }
+    };
+
+    forgotPass.onclick = function(e) {
+      e.preventDefault();
+      signinMsg.style.color = '#0077b6';
+      signinMsg.textContent = 'Password reset link sent!';
+    };
+  </script>
+</body>
+</html>

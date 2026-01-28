@@ -1,0 +1,200 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  background: #f6f8fa;
+  color: #222;
+  scroll-behavior: smooth;
+}
+header {
+  background: #0077b6;
+  color: #fff;
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+header h1 {
+  margin: 0;
+  font-size: 2rem;
+  letter-spacing: 2px;
+}
+nav a {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 2rem;
+  font-weight: 500;
+  transition: color 0.2s;
+  position: relative;
+}
+nav a::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #90e0ef;
+  transition: width .3s;
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+}
+nav a:hover::after {
+  width: 100%;
+}
+nav a:hover {
+  color: #90e0ef;
+}
+#hero {
+  background: linear-gradient(90deg, #00b4d8 60%, #90e0ef 100%);
+  color: #fff;
+  text-align: center;
+  padding: 3rem 1rem;
+  position: relative;
+  overflow: hidden;
+}
+#hero h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  animation: fadeInDown 1s;
+}
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-30px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+.cta-btn {
+  display: inline-block;
+  margin-top: 1.5rem;
+  padding: 0.75rem 2rem;
+  background: #0077b6;
+  color: #fff;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: background 0.2s, transform 0.2s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.cta-btn:hover {
+  background: #023e8a;
+  transform: scale(1.05);
+}
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+.ripple:active::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100px;
+  height: 100px;
+  background: rgba(144,224,239,0.4);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  animation: ripple-effect .5s linear;
+}
+@keyframes ripple-effect {
+  to { transform: translate(-50%, -50%) scale(2); opacity: 0;}
+}
+.highlight-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  margin: 2rem 0;
+}
+.highlight-card {
+  background: #f1f1f1;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  width: 250px;
+  padding: 1rem;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+.highlight-card:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 8px 24px rgba(0,123,182,0.15);
+  background: linear-gradient(120deg, #caf0f8 60%, #f1f1f1 100%);
+}
+.services-table {
+  width: 90%;
+  margin: 2rem auto;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+}
+.services-table th, .services-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #caf0f8;
+}
+.services-table th {
+  background: #90e0ef;
+  color: #023e8a;
+}
+.services-table tr:last-child td {
+  border-bottom: none;
+}
+ul {
+  list-style: disc;
+  margin-left: 2rem;
+}
+footer {
+  background: #0077b6;
+  color: #fff;
+  text-align: center;
+  padding: 1rem 0;
+  margin-top: 2rem;
+}
+@media (max-width: 900px) {
+  .highlight-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+  .services-table {
+    width: 100%;
+  }
+}
+/* ...existing code... */
+.service-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  margin: 2rem 0;
+}
+.service-card {
+  background: #f1f1f1;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  width: 220px;
+  padding: 1rem;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+  cursor: pointer;
+  position: relative;
+  outline: none;
+}
+.service-card:hover, .service-card:focus {
+  transform: scale(1.07);
+  box-shadow: 0 8px 24px rgba(0,123,182,0.15);
+  background: linear-gradient(120deg, #caf0f8 60%, #f1f1f1 100%);
+}
+.service-card .price {
+  display: block;
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  color: #0077b6;
+  font-weight: bold;
+}
+.service-card.selected {
+  border: 2px solid #0077b6;
+  box-shadow: 0 0 20px #90e0ef;
+}

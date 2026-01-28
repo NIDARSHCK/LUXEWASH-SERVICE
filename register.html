@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Register Your Car Wash Shop - LuxeWash</title>
+  <link rel="stylesheet" href="main1.css">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #caf0f8 0%, #90e0ef 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #222;
+    }
+    .shopreg-container {
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(0,123,182,0.18);
+      padding: 2.5rem 2rem;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      animation: fadeIn 0.8s;
+    }
+    .shopreg-container h2 {
+      color: #0077b6;
+      margin-bottom: 1.2rem;
+      font-size: 2rem;
+      letter-spacing: 1px;
+    }
+    .shopreg-container input, .shopreg-container textarea {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      border: 1px solid #caf0f8;
+      font-size: 1rem;
+      background: #f8f9fa;
+    }
+    .shopreg-container textarea {
+      min-height: 60px;
+      resize: vertical;
+    }
+    .shopreg-container button {
+      width: 100%;
+      background: #0077b6;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.7rem;
+      font-size: 1.1rem;
+      cursor: pointer;
+      margin-bottom: 0.5rem;
+      margin-top: 0.5rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .shopreg-container button:hover {
+      background: #023e8a;
+      transform: scale(1.03);
+    }
+    .shopreg-container a {
+      display: block;
+      text-align: center;
+      color: #0077b6;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .shopreg-container a:hover {
+      color: #023e8a;
+    }
+    .message {
+      color: #d90429;
+      text-align: center;
+      margin-top: 1rem;
+      min-height: 1.2em;
+    }
+    .success-message {
+      color: #0077b6;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-top: 1.5rem;
+      animation: fadeIn 1s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+  <div class="shopreg-container">
+    <h2>Register Your Car Wash Shop</h2>
+    <form id="shopRegForm">
+      <input type="text" id="shopName" placeholder="Shop Name" required>
+      <input type="text" id="ownerName" placeholder="Owner Name" required>
+      <input type="text" id="shopEmail" placeholder="Email" required>
+      <input type="text" id="shopPhone" placeholder="Phone Number" required>
+      <textarea id="shopAddress" placeholder="Shop Address" required></textarea>
+      <input type="text" id="shopCity" placeholder="City" required>
+      <input type="text" id="shopPincode" placeholder="Pincode" required>
+      <input type="text" id="shopServices" placeholder="Services Offered (comma separated)" required>
+      <button type="submit">Register Shop</button>
+    </form>
+    <a href="index1.html">Back to Home</a>
+    <div class="message" id="shopRegMsg"></div>
+    <div class="success-message" id="shopRegSuccess" style="display:none;">
+      Shop registration successful! Thank you for joining LuxeWash.
+    </div>
+  </div>
+  <script>
+    const shopRegForm = document.getElementById('shopRegForm');
+    const shopRegMsg = document.getElementById('shopRegMsg');
+    const shopRegSuccess = document.getElementById('shopRegSuccess');
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+    function isValidPhone(phone) {
+      return /^\d{10}$/.test(phone);
+    }
+    function isValidPincode(pin) {
+      return /^\d{6}$/.test(pin);
+    }
+
+    shopRegForm.onsubmit = function(e) {
+      e.preventDefault();
+      const shopName = document.getElementById('shopName').value.trim();
+      const ownerName = document.getElementById('ownerName').value.trim();
+      const shopEmail = document.getElementById('shopEmail').value.trim();
+      const shopPhone = document.getElementById('shopPhone').value.trim();
+      const shopAddress = document.getElementById('shopAddress').value.trim();
+      const shopCity = document.getElementById('shopCity').value.trim();
+      const shopPincode = document.getElementById('shopPincode').value.trim();
+      const shopServices = document.getElementById('shopServices').value.trim();
+
+      shopRegMsg.style.color = '#d90429';
+      shopRegMsg.textContent = '';
+
+      if (!shopName) {
+        shopRegMsg.textContent = 'Please enter shop name.';
+        return;
+      }
+      if (!ownerName) {
+        shopRegMsg.textContent = 'Please enter owner name.';
+        return;
+      }
+      if (!isValidEmail(shopEmail)) {
+        shopRegMsg.textContent = 'Please enter a valid email.';
+        return;
+      }
+      if (!isValidPhone(shopPhone)) {
+        shopRegMsg.textContent = 'Please enter a valid 10-digit phone number.';
+        return;
+      }
+      if (!shopAddress) {
+        shopRegMsg.textContent = 'Please enter shop address.';
+        return;
+      }
+      if (!shopCity) {
+        shopRegMsg.textContent = 'Please enter city.';
+        return;
+      }
+      if (!isValidPincode(shopPincode)) {
+        shopRegMsg.textContent = 'Please enter a valid 6-digit pincode.';
+        return;
+      }
+      if (!shopServices) {
+        shopRegMsg.textContent = 'Please enter services offered.';
+        return;
+      }
+
+      shopRegForm.style.display = 'none';
+      shopRegMsg.textContent = '';
+      shopRegSuccess.style.display = 'block';
+    };
+  </script>

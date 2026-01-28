@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LuxeWash - Book Now</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Lato', sans-serif;
+      /* --- UPDATED: More accurate color from the image --- */
+      background: #7B7DEF;
+      background-size: cover;
+      color: #ffffff;
+      line-height: 1.6;
+    }
+    h1, h2 {
+        font-family: 'Montserrat', sans-serif;
+    }
+    .booking-section {
+      margin: 2rem auto;
+      background: rgba(255,255,255,0.98);
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      max-width: 600px;
+      position: relative;
+      transition: box-shadow 0.3s ease-in-out;
+      color: #333; /* Reset color for form section */
+    }
+    .booking-section:hover {
+        box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.45);
+    }
+    .booking-section h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      color: #0077b6;
+      margin-bottom: 2rem;
+      letter-spacing: 1.5px;
+    }
+    form label {
+      font-weight: 700;
+      display: block;
+      margin-top: 1.2rem;
+      color: #023e8a;
+    }
+    form input, form select {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1px solid #ade8f4;
+      border-radius: 10px;
+      font-size: 1rem;
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+      box-sizing: border-box;
+      background: #fdfdfd;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    form input:focus, form select:focus {
+        outline: none;
+        border-color: #0077b6;
+        box-shadow: 0 0 0 3px rgba(0, 119, 182, 0.2);
+    }
+    form button {
+      background: linear-gradient(90deg, #0077b6 0%, #00b4d8 100%);
+      color: #fff;
+      border: none;
+      padding: 1rem;
+      border-radius: 10px;
+      font-size: 1.2rem;
+      font-family: 'Montserrat', sans-serif;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 1.5rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    form button:hover {
+      box-shadow: 0 4px 15px rgba(0, 119, 182, 0.4);
+      transform: translateY(-3px);
+    }
+    .error {
+      color: #d00000;
+      font-size: 0.9rem;
+      min-height: 1.2em;
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: block;
+      font-weight: 700;
+    }
+    .error.active {
+      opacity: 1;
+      animation: shake 0.4s;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0);}
+      25%, 75% { transform: translateX(-6px);}
+      50% { transform: translateX(6px);}
+    }
+    #confirmation {
+      background: #e0f7fa;
+      color: #01579b;
+      padding: 1.5rem;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: 500;
+      margin-top: 1.5rem;
+      animation: fadeIn 0.7s ease-in-out;
+      border-left: 5px solid #0077b6;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    header h1 {
+        font-size: 3.5rem;
+        text-align: center;
+        color: #ffffff;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+    }
+    nav {
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .nav-link {
+      color: #0077b6;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 1.1rem;
+      background: rgba(255,255,255,0.95);
+      padding: 0.6rem 1.5rem;
+      border-radius: 50px;
+      transition: background 0.3s, color 0.3s, transform 0.3s;
+      display: inline-block;
+      margin: 0.5rem 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .nav-link:hover {
+      background: #0077b6;
+      color: #fff;
+      transform: translateY(-2px);
+    }
+    .hidden {
+        display: none;
+    }
+     @media (max-width: 900px) {
+      .booking-section {
+        width: 95%;
+        padding: 2rem 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>LuxeWash</h1>
+    <nav>
+      <a href="index1.html" class="nav-link">Home</a>
+    </nav>
+  </header>
+  <main>
+    <section class="booking-section">
+      <h2>Book Your Car Wash</h2>
+      <form id="bookingForm" novalidate>
+       <label for="name">Name</label>
+        <input type="text" id="name" required placeholder="Enter your full name">
+        <span class="error" id="nameError"></span>
+        
+        <label for="car">Car Model</label>
+        <input type="text" id="car" required placeholder="e.g., Toyota Camry">
+        <span class="error" id="carError"></span>
+        
+        <label for="carNumber">Car Number</label>
+        <input type="text" id="carNumber" required placeholder="e.g., KA-01-AB-1234">
+        <span class="error" id="carNumberError"></span>
+        
+        <label for="serviceType">Select Service</label>
+        <select id="serviceType" required>
+          <option value="">-- Choose a Service --</option>
+          <option>Basic Wash</option>
+          <option>Premium Wash</option>
+          <option>Interior Detailing</option>
+          <option>Exterior Detailing</option>
+          <option>Engine Cleaning</option>
+          <option>Ceramic Coating</option>
+          <option>Paint Protection</option>
+          <option>Headlight Restoration</option>
+          <option>Odor Removal</option>
+          <option>Scratch Removal</option>
+        </select>
+        <span class="error" id="serviceTypeError"></span>
+        
+        <label for="modificationType">Select Modification (optional)</label>
+        <select id="modificationType">
+          <option value="">-- Choose Modification --</option>
+          <option>Custom Alloy Wheels</option>
+          <option>Body Kits</option>
+          <option>Window Tinting</option>
+          <option>Performance Upgrades</option>
+          <option>Interior Customization</option>
+          <option>Spoilers</option>
+          <option>LED Lights</option>
+          <option>Custom Paint</option>
+          <option>Exhaust Upgrade</option>
+          <option>Suspension Tuning</option>
+          <option>Audio System</option>
+          <option>Remote Start</option>
+        </select>
+        <span class="error" id="modificationTypeError"></span>
+        
+        <label for="date">Date of Booking</label>
+        <input type="date" id="date" required>
+        <span class="error" id="dateError"></span>
+        
+        <label for="time">Time of Booking</label>
+        <input type="time" id="time" required>
+        <span class="error" id="timeError"></span>
+        
+        <button type="submit">Confirm Booking</button>
+      </form>
+      <div id="confirmation" class="hidden"></div>
+    </section>
+  </main>
+  <footer>
+    <p style="text-align: center; margin-top: 2rem; color: #E0E0E0;">&copy; 2025 LuxeWash. All rights reserved.</p>
+  </footer>
+  <script>
+    // Booking form validation and confirmation
+    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      let valid = true;
+      ['name', 'car', 'carNumber', 'serviceType', 'date', 'time'].forEach(id => {
+        const errorEl = document.getElementById(id + 'Error');
+        if (errorEl) {
+            errorEl.textContent = '';
+            errorEl.classList.remove('active');
+        }
+      });
+      const name = document.getElementById('name').value.trim();
+      const car = document.getElementById('car').value.trim();
+      const carNumber = document.getElementById('carNumber').value.trim();
+      const serviceType = document.getElementById('serviceType').value;
+      const modificationType = document.getElementById('modificationType').value;
+      const date = document.getElementById('date').value;
+      const time = document.getElementById('time').value;
+      if (!name) { showError('nameError', 'Please enter your name.'); valid = false; }
+      if (!car) { showError('carError', 'Please enter your car model.'); valid = false; }
+      if (!carNumber) { showError('carNumberError', 'Please enter your car number.'); valid = false; }
+      if (!serviceType) { showError('serviceTypeError', 'Please select a service.'); valid = false; }
+      if (!date) { showError('dateError', 'Please select a date.'); valid = false; }
+      if (!time) { showError('timeError', 'Please select a time.'); valid = false; }
+      if (!valid) return;
+      const confirmation = document.getElementById('confirmation');
+      confirmation.innerHTML = `
+        Thank you, <strong>${name}</strong>!<br>
+        Your booking for <strong>${car}</strong> (Car No: <strong>${carNumber}</strong>)<br>
+        Service: <strong>${serviceType}</strong>${modificationType ? `<br>Modification: <strong>${modificationType}</strong>` : ''}<br>
+        on <strong>${date}</strong> at <strong>${time}</strong> is confirmed.
+      `;
+      confirmation.classList.remove('hidden');
+      // Hide the confirmation message after 10 seconds
+      setTimeout(() => {
+          confirmation.classList.add('hidden');
+      }, 10000);
+      this.reset();
+    });
+    function showError(id, message) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.textContent = message;
+        el.classList.add('active');
+      }
+    }
+    // Set min date to today
+    document.getElementById('date').min = new Date().toISOString().split('T')[0];
+  </script>
+</body>
+</html>
